@@ -3,6 +3,7 @@ use crate::client::Context;
 use crate::collector::ModalInteractionCollector;
 use crate::model::prelude::*;
 
+#[derive(Debug, Serialize, Deserialize)]
 #[cfg(feature = "collector")]
 pub struct QuickModalResponse {
     pub interaction: ModalInteraction,
@@ -24,6 +25,7 @@ pub struct QuickModalResponse {
 /// let (first_name, last_name, hobbies) = (&inputs[0], &inputs[1], &inputs[2]);
 /// # Ok(()) }
 /// ```
+#[derive(Debug, Serialize, Deserialize)]
 #[cfg(feature = "collector")]
 #[must_use]
 pub struct CreateQuickModal {

@@ -5,7 +5,7 @@ use crate::http::Http;
 use crate::internal::prelude::*;
 use crate::model::prelude::*;
 
-#[derive(Debug, Default, Clone, Serialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[must_use]
 pub struct EditWebhook<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]

@@ -59,7 +59,7 @@ enum ParseValue {
 ///
 /// [`ChannelId::send_message`]: crate::model::id::ChannelId::send_message
 /// [`ChannelId::edit_message`]: crate::model::id::ChannelId::edit_message
-#[derive(Clone, Debug, Default, Serialize)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
 #[must_use]
 pub struct CreateAllowedMentions {
     parse: HashSet<ParseValue>,
