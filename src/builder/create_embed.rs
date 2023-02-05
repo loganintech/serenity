@@ -121,10 +121,10 @@ impl CreateEmbed {
     /// Adds multiple fields at once.
     ///
     /// This is sugar to reduce the need of calling [`Self::field`] manually multiple times.
-    pub fn fields<N, V>(mut self, fields: impl IntoIterator<Item = (N, V, bool)>) -> Self
-    where
-        N: Into<String>,
-        V: Into<String>,
+    pub fn fields<N, V>(mut self, fields: impl IntoIterator<Item=(N, V, bool)>) -> Self
+        where
+            N: Into<String>,
+            V: Into<String>,
     {
         let fields =
             fields.into_iter().map(|(name, value, inline)| EmbedField::new(name, value, inline));
@@ -296,6 +296,36 @@ impl Default for CreateEmbed {
     }
 }
 
+impl Into<Embed> for CreateEmbed {
+    fn into(self) -> Embed {
+        Embed {
+            author: self.author.map(Into::into),
+            colour: self.colour,
+            description: self.description,
+            fields: self.fields,
+            footer: self.footer.map(Into::into),
+            image: self.image.map(|i| EmbedImage {
+                url: i.url,
+                proxy_url: None,
+                height: None,
+                width: None,
+            }),
+            kind: Some(self.kind.to_owned()),
+            provider: None,
+            thumbnail: self.thumbnail.map(|t| EmbedThumbnail {
+                url: t.url,
+                proxy_url: None,
+                height: None,
+                width: None,
+            }),
+            timestamp: self.timestamp,
+            title: self.title,
+            url: self.url,
+            video: None,
+        }
+    }
+}
+
 impl From<Embed> for CreateEmbed {
     /// Converts the fields of an embed into the values for a new embed builder.
     ///
@@ -378,6 +408,17 @@ impl CreateEmbedAuthor {
     }
 }
 
+impl Into<EmbedAuthor> for CreateEmbedAuthor {
+    fn into(self) -> EmbedAuthor {
+        EmbedAuthor {
+            name: self.name,
+            url: self.url,
+            icon_url: self.icon_url,
+            proxy_icon_url: None,
+        }
+    }
+}
+
 impl From<EmbedAuthor> for CreateEmbedAuthor {
     fn from(author: EmbedAuthor) -> Self {
         Self {
@@ -419,6 +460,16 @@ impl CreateEmbedFooter {
     pub fn icon_url(mut self, icon_url: impl Into<String>) -> Self {
         self.icon_url = Some(icon_url.into());
         self
+    }
+}
+
+impl Into<EmbedFooter> for CreateEmbedFooter {
+    fn into(self) -> EmbedFooter {
+        EmbedFooter {
+            text: self.text,
+            icon_url: self.icon_url,
+            proxy_icon_url: None,
+        }
     }
 }
 
